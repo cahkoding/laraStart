@@ -24,3 +24,19 @@ $fa-font-path: "../webfonts";
     background-color: #007bff;
     color: #fff !important;
 }
+
+.page-enter-active, .page-leave-active {
+    transition: opacity 1s, transform 1s;
+}
+.page-enter, .page-leave-to {
+    opacity: 0;
+    transform: translateX(-30%);
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+
+.fade-enter, .fade-leave-active {
+  opacity: 0
+}

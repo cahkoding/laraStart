@@ -20,7 +20,8 @@ class UserItem extends JsonResource
             'email'=> $this->email,
             'type' => $this->type,
             'bio' => $this->bio,
-            'photo' => $this->photo
+            'photo' => $this->photo,
+            'created_at' => $this->created_at->toDateTimeString()            
         ];
     }
 }

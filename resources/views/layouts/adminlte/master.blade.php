@@ -259,7 +259,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
-        <router-view></router-view>
+      <!-- <transition name="page" mode="out-in"> -->
+      <transition mode="out-in" name="fade">
+        <router-view ></router-view>
+      </transition>
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->

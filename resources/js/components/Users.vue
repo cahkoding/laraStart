@@ -21,13 +21,16 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Type</th>
+                    <th>Registered at</th>
                     <th>Tools</th>
                   </tr>
-                  <tr v-for="user in users">
+                  <tr v-for="user in users" :key="user.id">
                     <td>{{ user.id }}</td>
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
-                    <td><span class="tag tag-success">{{ user.type }}</span></td>
+                    <td><span class="tag tag-success">{{ user.type | upText }}</span></td>
+                    <td>{{ user.created_at | formatDateId }}</td>
+
                     <td>
                         <a href="#edit">
                             <i class="fas fa-edit blue"></i>
@@ -38,13 +41,6 @@
                         </a>
                     </td>
                   </tr>
-                  <!-- <tr>
-                    <td>183</td>
-                    <td>John Doe</td>
-                    <td>11-7-2014</td>
-                    <td><span class="tag tag-success">Approved</span></td>
-                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                  </tr> -->
                 </tbody></table>
               </div>
               <!-- /.card-body -->
@@ -128,7 +124,7 @@
 <script>
     export default {
         mounted() {
-            this.getUsers() 
+            this.loadUsers() 
         },
         data () {
             return {
@@ -145,18 +141,16 @@
             }
         },
         methods: {
-            createUser() {
-                this.form.post('api/users').then((response) => {
-                    console.log(response)
+            async createUser() {
+                let store = await this.form.post('api/users')
+                if (store) {
                     $('#addNew').modal('hide');
-                    this.getUsers()
-                })
-                
+                    this.loadUsers()
+                }
             },
-            getUsers() {
-                window.axios.get('/api/users').then(({ data }) => {
-                    this.users = data.data
-                })
+            async loadUsers() {
+                let res = await axios.get('/api/users')
+                this.users = res.data.data
             }
         }
     }

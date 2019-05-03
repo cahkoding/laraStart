@@ -29605,3 +29605,27 @@ readers do not read off random characters that represent icons */
   color: #fff !important;
 }
 
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 1s, -webkit-transform 1s;
+  transition: opacity 1s, transform 1s;
+  transition: opacity 1s, transform 1s, -webkit-transform 1s;
+}
+
+.page-enter,
+.page-leave-to {
+  opacity: 0;
+  -webkit-transform: translateX(-30%);
+          transform: translateX(-30%);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+
