@@ -2023,9 +2023,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    this.loadUsers();
-  },
+  mounted: function mounted() {},
   data: function data() {
     return {
       form: new Form({
@@ -2106,6 +2104,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       return loadUsers;
     }()
+  },
+  created: function created() {
+    var _this = this;
+
+    this.loadUsers();
+    setInterval(function () {
+      return _this.loadUsers();
+    }, 15000);
   }
 });
 

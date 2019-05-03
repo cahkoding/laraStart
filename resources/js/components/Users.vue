@@ -124,7 +124,6 @@
 <script>
     export default {
         mounted() {
-            this.loadUsers() 
         },
         data () {
             return {
@@ -158,6 +157,10 @@
                 let res = await axios.get('/api/users')
                 this.users = res.data.data
             }
+        },
+        created () {
+            this.loadUsers() 
+            setInterval(() => this.loadUsers(), 15000)
         }
     }
 </script>
