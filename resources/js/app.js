@@ -12,9 +12,21 @@ import moment from 'moment'
 import VueProgressBar from 'vue-progressbar'
 import { Form, HasError, AlertError } from 'vform'
 
+
 window.Form = Form
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
+
+import Swal from 'sweetalert2'
+window.Swal = Swal
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
+
+window.Toast = Toast
 
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)

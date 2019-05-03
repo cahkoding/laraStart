@@ -143,11 +143,15 @@
         methods: {
             async createUser() {
                 this.$Progress.start()
-                let store = await this.form.post('api/users')
-                if (store) {
-                    $('#addNew').modal('hide');
-                    this.loadUsers()
-                }
+                await this.form.post('api/users')
+
+                $('#addNew').modal('hide');
+                Toast.fire({
+                    type: 'success',
+                    title: 'User created in successfully'
+                })
+                this.loadUsers()
+
                 this.$Progress.finish()
             },
             async loadUsers() {
