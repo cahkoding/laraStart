@@ -2048,24 +2048,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 this.$Progress.start();
-                _context.next = 3;
+                _context.prev = 1;
+                _context.next = 4;
                 return this.form.post('api/users');
 
-              case 3:
+              case 4:
                 Fire.$emit('AfterCreate');
-                $('#addNew').modal('hide');
-                Toast.fire({
-                  type: 'success',
-                  title: 'User created in successfully'
-                });
-                this.$Progress.finish();
+                _context.next = 9;
+                break;
 
               case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](1);
+
+              case 9:
+                this.$Progress.finish();
+
+              case 10:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this);
+        }, _callee, this, [[1, 7]]);
       }));
 
       function createUser() {
@@ -2111,7 +2115,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.loadUsers(); // setInterval(() => this.loadUsers(), 15000)
 
     Fire.$on('AfterCreate', function () {
-      return _this.loadUsers();
+      _this.loadUsers();
+
+      $('#addNew').modal('hide');
+      Toast.fire({
+        type: 'success',
+        title: 'User created in successfully'
+      });
     });
   }
 });

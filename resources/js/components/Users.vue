@@ -142,15 +142,11 @@
         methods: {
             async createUser() {
                 this.$Progress.start()
-                await this.form.post('api/users')
 
-                Fire.$emit('AfterCreate')
-                
-                $('#addNew').modal('hide');
-                Toast.fire({
-                    type: 'success',
-                    title: 'User created in successfully'
-                })
+                try {
+                    await this.form.post('api/users')
+                    Fire.$emit('AfterCreate')
+                } catch (err) {}
 
                 this.$Progress.finish()
             },
@@ -162,7 +158,14 @@
         created () {
             this.loadUsers() 
             // setInterval(() => this.loadUsers(), 15000)
-            Fire.$on('AfterCreate', () => this.loadUsers())
+            Fire.$on('AfterCreate', () => {
+                this.loadUsers()
+                $('#addNew').modal('hide');
+                Toast.fire({
+                    type: 'success',
+                    title: 'User created in successfully'
+                })
+            })
         }
     }
 </script>
