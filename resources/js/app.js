@@ -9,6 +9,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 import moment from 'moment'
+import VueProgressBar from 'vue-progressbar'
 import { Form, HasError, AlertError } from 'vform'
 
 window.Form = Form
@@ -40,6 +41,11 @@ Vue.filter('formatDateId', (date) => {
     return moment(date).format('Do MMMM YYYY') 
 })
 
+Vue.use(VueProgressBar, {
+    color: 'rgb(143, 255, 199)',
+    failedColor: 'red',
+    height: '2px'
+  })
   
 /**
  * The following block of code may be used to automatically register your

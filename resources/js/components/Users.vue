@@ -142,11 +142,13 @@
         },
         methods: {
             async createUser() {
+                this.$Progress.start()
                 let store = await this.form.post('api/users')
                 if (store) {
                     $('#addNew').modal('hide');
                     this.loadUsers()
                 }
+                this.$Progress.finish()
             },
             async loadUsers() {
                 let res = await axios.get('/api/users')

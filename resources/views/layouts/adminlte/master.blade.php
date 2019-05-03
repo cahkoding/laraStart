@@ -263,6 +263,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <transition mode="out-in" name="fade">
         <router-view ></router-view>
       </transition>
+
+      <!-- set progressbar -->
+      <vue-progress-bar></vue-progress-bar>
+
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
