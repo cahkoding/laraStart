@@ -2032,7 +2032,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         password: '',
         type: '',
         bio: '',
-        photo: 'profile.png',
+        photo: '',
         password_confirmation: ''
       }),
       users: []
@@ -2054,17 +2054,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 Fire.$emit('AfterCreate');
-                _context.next = 9;
+                _context.next = 10;
                 break;
 
               case 7:
                 _context.prev = 7;
                 _context.t0 = _context["catch"](1);
-
-              case 9:
-                this.$Progress.finish();
+                Swal.fire('Failed', 'There was something wrong. \n' + _context.t0, 'warning');
 
               case 10:
+                this.$Progress.finish();
+
+              case 11:
               case "end":
                 return _context.stop();
             }
@@ -2107,6 +2108,86 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       return loadUsers;
+    }(),
+    confirmDelete: function () {
+      var _confirmDelete = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(id) {
+        var result;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return Swal.fire({
+                  title: 'Are you sure?',
+                  text: "You won't be able to revert this!",
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes, delete it!'
+                });
+
+              case 2:
+                result = _context3.sent;
+
+                if (result.value) {
+                  this.deleteUser(id);
+                  this.loadUsers();
+                }
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function confirmDelete(_x) {
+        return _confirmDelete.apply(this, arguments);
+      }
+
+      return confirmDelete;
+    }(),
+    deleteUser: function () {
+      var _deleteUser = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(id) {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.prev = 0;
+                _context4.next = 3;
+                return this.form["delete"]('/api/users/' + id);
+
+              case 3:
+                res = _context4.sent;
+                Swal.fire('Deleted!', res.data.message, 'success');
+                _context4.next = 10;
+                break;
+
+              case 7:
+                _context4.prev = 7;
+                _context4.t0 = _context4["catch"](0);
+                Swal.fire('Failed', 'There was something wrong. \n' + _context4.t0, 'warning');
+
+              case 10:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this, [[0, 7]]);
+      }));
+
+      function deleteUser(_x2) {
+        return _deleteUser.apply(this, arguments);
+      }
+
+      return deleteUser;
     }()
   },
   created: function created() {
@@ -2115,6 +2196,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.loadUsers(); // setInterval(() => this.loadUsers(), 15000)
 
     Fire.$on('AfterCreate', function () {
+      _this.form.reset();
+
       _this.loadUsers();
 
       $('#addNew').modal('hide');
@@ -59678,7 +59761,22 @@ var render = function() {
                         _vm._v(_vm._s(_vm._f("formatDateId")(user.created_at)))
                       ]),
                       _vm._v(" "),
-                      _vm._m(2, true)
+                      _c("td", [
+                        _vm._m(2, true),
+                        _vm._v("\n                    /\n                    "),
+                        _c(
+                          "a",
+                          {
+                            attrs: { href: "#delete" },
+                            on: {
+                              click: function($event) {
+                                return _vm.confirmDelete(user.id)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fas fa-trash red" })]
+                        )
+                      ])
                     ])
                   })
                 ],
@@ -60047,14 +60145,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("a", { attrs: { href: "#edit" } }, [
-        _c("i", { staticClass: "fas fa-edit blue" })
-      ]),
-      _vm._v("\n                    /\n                    "),
-      _c("a", { attrs: { href: "#delete" } }, [
-        _c("i", { staticClass: "fas fa-trash red" })
-      ])
+    return _c("a", { attrs: { href: "#edit" } }, [
+      _c("i", { staticClass: "fas fa-edit blue" })
     ])
   },
   function() {

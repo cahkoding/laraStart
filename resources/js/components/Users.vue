@@ -36,7 +36,7 @@
                             <i class="fas fa-edit blue"></i>
                         </a>
                         /
-                        <a href="#delete">
+                        <a href="#delete" @click="confirmDelete(user.id)">
                             <i class="fas fa-trash red"></i>
                         </a>
                     </td>
@@ -133,7 +133,7 @@
                     password : '',
                     type : '',
                     bio : '',
-                    photo : 'profile.png',
+                    photo : '',
                     password_confirmation: ''
                 }), 
                 users: []
@@ -146,19 +146,51 @@
                 try {
                     await this.form.post('api/users')
                     Fire.$emit('AfterCreate')
-                } catch (err) {}
+                } catch (e) {
+                    Swal.fire('Failed', 'There was something wrong. \n' + e, 'warning')
+                }
 
                 this.$Progress.finish()
             },
             async loadUsers() {
                 let res = await axios.get('/api/users')
                 this.users = res.data.data
+            },
+            async confirmDelete (id) {
+                let result = await Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                })
+
+                if (result.value) {
+                    this.deleteUser(id)
+                    this.loadUsers()
+                }
+            },
+            async deleteUser (id) {
+                try {
+                    // await axios.delete('/api/users/' +id)
+                    let res = await this.form.delete('/api/users/' +id)
+                    Swal.fire(
+                        'Deleted!',
+                         res.data.message,
+                        'success'
+                    )
+                } catch (e) {
+                    Swal.fire('Failed', 'There was something wrong. \n' + e, 'warning')
+                }
             }
         },
         created () {
             this.loadUsers() 
             // setInterval(() => this.loadUsers(), 15000)
             Fire.$on('AfterCreate', () => {
+                this.form.reset()
                 this.loadUsers()
                 $('#addNew').modal('hide');
                 Toast.fire({

@@ -37,7 +37,7 @@ class UserController extends Controller
             'email' => $request->email,
             'type' => $request->type,
             'bio' => $request->bio,
-            'photo' => $request->photo,
+            'photo' => $request->photo ?? 'profile.png',
             'password' => Hash::make($request->password)
         );
 
@@ -75,6 +75,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // return User::destroy($id);
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return ["message" => "User $user->name Deleted."];
     }
 }
