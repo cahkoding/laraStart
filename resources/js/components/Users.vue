@@ -144,12 +144,13 @@
                 this.$Progress.start()
                 await this.form.post('api/users')
 
+                Fire.$emit('AfterCreate')
+                
                 $('#addNew').modal('hide');
                 Toast.fire({
                     type: 'success',
                     title: 'User created in successfully'
                 })
-                this.loadUsers()
 
                 this.$Progress.finish()
             },
@@ -160,7 +161,8 @@
         },
         created () {
             this.loadUsers() 
-            setInterval(() => this.loadUsers(), 15000)
+            // setInterval(() => this.loadUsers(), 15000)
+            Fire.$on('AfterCreate', () => this.loadUsers())
         }
     }
 </script>

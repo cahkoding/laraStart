@@ -72,6 +72,8 @@ Vue.use(VueProgressBar, {
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
+// optioonal Fire.$on , jka tidak di deklarasi bisa dipanggil dengan this.$emit / $on
+window.Fire = new Vue()
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

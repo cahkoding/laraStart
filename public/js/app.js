@@ -2052,12 +2052,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return this.form.post('api/users');
 
               case 3:
+                Fire.$emit('AfterCreate');
                 $('#addNew').modal('hide');
                 Toast.fire({
                   type: 'success',
                   title: 'User created in successfully'
                 });
-                this.loadUsers();
                 this.$Progress.finish();
 
               case 7:
@@ -2108,10 +2108,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   created: function created() {
     var _this = this;
 
-    this.loadUsers();
-    setInterval(function () {
+    this.loadUsers(); // setInterval(() => this.loadUsers(), 15000)
+
+    Fire.$on('AfterCreate', function () {
       return _this.loadUsers();
-    }, 15000);
+    });
   }
 });
 
@@ -75010,7 +75011,9 @@ Vue.use(vue_progressbar__WEBPACK_IMPORTED_MODULE_1___default.a, {
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
+Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]); // optioonal Fire.$on , jka tidak di deklarasi bisa dipanggil dengan this.$emit / $on
+
+window.Fire = new Vue();
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
