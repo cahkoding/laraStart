@@ -9,12 +9,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>AdminLTE 3 | Starter</title>
+  <!-- CSRF Token -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
+  <title>Corporate Suit | Starter</title>
 
   <link rel="stylesheet" href="/css/app.css" >
 </head>
 <body class="hold-transition sidebar-mini">
-<div class="wrapper">
+<div id="app" class="wrapper">
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
@@ -144,7 +147,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <a href="index3.html" class="brand-link">
       <img src="./img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">Corporate Suite</span>
     </a>
 
     <!-- Sidebar -->
@@ -155,29 +158,57 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img src="./img/profile.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">
+          {{Auth::user()->name}}
+          </a>
         </div>
       </div>
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <li class="nav-item">
+          <router-link to="/dashboard" class="nav-link">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>
+              Dashboard
+            </p>
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/profile" class="nav-link">
+            <i class="nav-icon fas fa-user-alt"></i>
+            <p>
+              Profile
+            </p>
+          </router-link>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-envelope"></i>
+              <p>
+                Messages
+                <span class="right badge badge-danger">New</span>
+              </p>
+            </a>
+          </li>
+
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+          <li class="nav-item has-treeview --menu-open">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-cogs  "></i>
               <p>
-                Starter Pages
+                Management
                 <i class="right fa fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link active">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Active Page</p>
-                </a>
+                <router-link to="/users"  class="nav-link">
+                  <i class="fas fa-users nav-icon"></i>
+                  <p>Users</p>
+                </router-link>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -188,13 +219,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fa fa-th"></i>
+            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link">
+              <i class="nav-icon fas fa-power-off"></i>
               <p>
-                Simple Link
-                <span class="right badge badge-danger">New</span>
+                {{ __('Logout') }}
               </p>
             </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
           </li>
         </ul>
       </nav>
@@ -226,64 +259,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
-                </p>
-
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-              </div>
-            </div>
-
-            <div class="card card-primary card-outline">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
-                </p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-              </div>
-            </div><!-- /.card -->
-          </div>
-          <!-- /.col-md-6 -->
-          <div class="col-lg-6">
-            <div class="card">
-              <div class="card-header">
-                <h5 class="m-0">Featured</h5>
-              </div>
-              <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h5 class="m-0">Featured</h5>
-              </div>
-              <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-          </div>
-          <!-- /.col-md-6 -->
-        </div>
-        <!-- /.row -->
+        <router-view></router-view>
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
