@@ -8,7 +8,7 @@
                 <h3 class="card-title">Users Table</h3>
 
                 <div class="card-tools">
-                    <button class="btn btn-success" data-toggle="modal" data-target="#addNew">Add New 
+                    <button class="btn btn-success" @click="newModal">Add New 
                         <i class="fas fa-user-plus"></i>
                     </button>
                 </div>
@@ -32,11 +32,11 @@
                     <td>{{ user.created_at | formatDateId }}</td>
 
                     <td>
-                        <a href="#edit">
+                        <a href="#" @click="editModal(user)">
                             <i class="fas fa-edit blue"></i>
                         </a>
                         /
-                        <a href="#delete" @click="confirmDelete(user.id)">
+                        <a href="#" @click="confirmDelete(user.id)">
                             <i class="fas fa-trash red"></i>
                         </a>
                     </td>
@@ -54,15 +54,14 @@
         <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-            <form @submit.prevent="createUser">
+            <form @submit.prevent="editMode ? updateUser() : createUser() ">
             <div class="modal-header">
-                <h5 class="modal-title" id="addNewLabel">Add New</h5>
+                <h5 class="modal-title" id="addNewLabel"> {{ editMode ? 'Edit User Info' : 'Add New' }} </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                
                 <div class="form-group">
                     <input v-model="form.name" type="text" name="name" placeholder="Name"
                         class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
@@ -91,26 +90,29 @@
                     </select>
                     <has-error :form="form" field="type"></has-error>
                 </div>
-
-                <div class="form-group">
-                    <input v-model="form.password" type="password" name="password" placeholder="Password"
-                        class="form-control" :class="{ 'is-invalid': form.errors.has('password') }">
-                    <has-error :form="form" field="password"></has-error>
-                </div>
-
                 
-                <div class="form-group">
-                    <input v-model="form.password_confirmation" type="password" 
-                    class="form-control"
-                    name="password_confirmation" placeholder="Confirm Password" id="password-confirm"
-                    autocomplete="new-password">
-                    <has-error :form="form" field="password"></has-error>
+                <div v-show="!editMode">
+                    <div class="form-group">
+                        <input v-model="form.password" type="password" name="password" placeholder="Password"
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('password') }">
+                        <has-error :form="form" field="password"></has-error>
+                    </div>
+
+                    
+                    <div class="form-group">
+                        <input v-model="form.password_confirmation" type="password" 
+                        class="form-control"
+                        name="password_confirmation" placeholder="Confirm Password" id="password-confirm"
+                        autocomplete="new-password">
+                        <has-error :form="form" field="password"></has-error>
+                    </div>
                 </div>
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Create</button>
+                <button v-show="editMode" type="submit" class="btn btn-success">Update</button>
+                <button v-show="!editMode" type="submit" class="btn btn-primary">Create</button>
             </div>
             </form>
             </div>
@@ -127,7 +129,9 @@
         },
         data () {
             return {
+                editMode : false,
                 form: new Form ({
+                    id: '',
                     name : '',
                     email : '',
                     password : '',
@@ -140,7 +144,20 @@
             }
         },
         methods: {
-            async createUser() {
+            newModal () {
+                this.form.reset()
+                this.form.clear()
+                this.editMode = false
+                $('#addNew').modal('show')
+            },
+            editModal (user) {
+                this.form.reset()
+                this.form.clear()
+                this.editMode = true
+                $('#addNew').modal('show')
+                this.form.fill(user)                
+            },
+            async createUser () {
                 this.$Progress.start()
 
                 try {
@@ -152,7 +169,17 @@
 
                 this.$Progress.finish()
             },
-            async loadUsers() {
+            async updateUser () {
+                this.$Progress.start()
+                try {
+                    await this.form.put(`api/users/${this.form.id}`)
+                    Fire.$emit('AfterCreate')
+                } catch (e) {
+                    Swal.fire('Failed', 'There was something wrong. \n' + e, 'warning')
+                }
+                this.$Progress.finish()
+            },
+            async loadUsers () {
                 let res = await axios.get('/api/users')
                 this.users = res.data.data
             },
@@ -188,14 +215,15 @@
         },
         created () {
             this.loadUsers() 
-            // setInterval(() => this.loadUsers(), 15000)
+            setInterval(() => this.loadUsers(), 15000)
+
             Fire.$on('AfterCreate', () => {
-                this.form.reset()
                 this.loadUsers()
-                $('#addNew').modal('hide');
+                $('#addNew').modal('hide')
+                let mode = this.editMode ? 'updated' : 'created'
                 Toast.fire({
                     type: 'success',
-                    title: 'User created in successfully'
+                    title: `User ${mode} in successfully`
                 })
             })
         }

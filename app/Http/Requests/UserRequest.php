@@ -22,12 +22,18 @@ class UserRequest extends FormRequest
      * @return array
      */
     public function rules()
-    {
-        return [
+    {   
+        $rules = [
             'name' => 'required|max:255',
             'type' => 'required',
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'password' => 'sometimes|required|min:6|confirmed',
         ];
+
+        if($this->id){
+            $rules['email'] = 'sometimes|required|unique:users,email,'.$this->id;
+        }
+
+        return $rules;
     }
 }

@@ -12,70 +12,43 @@ use App\Http\Resources\UserCollection;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $users = User::orderBy('id', 'desc')->paginate(5);
         return new UserCollection($users);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(UserRequest $request)
+    public function store(UserRequest $req)
     {
 
         $params = array(
-            'name' => $request->name,
-            'email' => $request->email,
-            'type' => $request->type,
-            'bio' => $request->bio,
-            'photo' => $request->photo ?? 'profile.png',
-            'password' => Hash::make($request->password)
+            'name' => $req->name,
+            'email' => $req->email,
+            'type' => $req->type,
+            'bio' => $req->bio,
+            'password' => Hash::make($req->password)
         );
 
         return User::create($params);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-
+        $user = User::findOrFail($id);
+        return new UserItem($user);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(UserRequest $req, $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $res =  $user->update($req->all());
+
+        return ["message" => "User updated"];
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        // return User::destroy($id);
         $user = User::findOrFail($id);
         $user->delete();
 

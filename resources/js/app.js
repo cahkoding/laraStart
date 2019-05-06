@@ -9,27 +9,18 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 import moment from 'moment'
+import Swal from 'sweetalert2'
+import VueRouter from 'vue-router'
 import VueProgressBar from 'vue-progressbar'
 import { Form, HasError, AlertError } from 'vform'
 
 
-window.Form = Form
-Vue.component(HasError.name, HasError)
-Vue.component(AlertError.name, AlertError)
-
-import Swal from 'sweetalert2'
-window.Swal = Swal
-const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000
-});
-
-window.Toast = Toast
-
-import VueRouter from 'vue-router'
 Vue.use(VueRouter)
+Vue.use(VueProgressBar, {
+    color: 'rgb(143, 255, 199)',
+    failedColor: 'red',
+    height: '2px'
+})
 
 let routes = [
     { path: '/dashboard', component: require('./components/Dashboard.vue').default },
@@ -52,12 +43,6 @@ Vue.filter('formatDateId', (date) => {
     moment.locale('id')
     return moment(date).format('Do MMMM YYYY') 
 })
-
-Vue.use(VueProgressBar, {
-    color: 'rgb(143, 255, 199)',
-    failedColor: 'red',
-    height: '2px'
-  })
   
 /**
  * The following block of code may be used to automatically register your
@@ -69,11 +54,22 @@ Vue.use(VueProgressBar, {
 
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
-
+Vue.component(HasError.name, HasError)
+Vue.component(AlertError.name, AlertError)
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
-// optioonal Fire.$on , jka tidak di deklarasi bisa dipanggil dengan this.$emit / $on
-window.Fire = new Vue()
+window.Form = Form
+window.Swal = Swal
+window.Fire = new Vue() // optioonal Fire.$on , jka tidak di deklarasi bisa dipanggil dengan this.$emit / $on
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
+window.Toast = Toast
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
