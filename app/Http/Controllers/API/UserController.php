@@ -13,6 +13,10 @@ use App\Http\Resources\UserCollection;
 class UserController extends Controller
 {
 
+    public function __construct () {
+            $this->middleware('api');
+    }
+
     public function index()
     {
         $users = User::orderBy('id', 'desc')->paginate(5);
