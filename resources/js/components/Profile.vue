@@ -18,7 +18,7 @@
                 <h5 class="widget-user-desc">Web Designer</h5>
               </div>
               <div class="widget-user-image">
-                <img class="img-circle" src="/img/profile.png" alt="User Avatar">
+                <img class="img-circle" v-bind:src="'/img/profile/' + form.photo" alt="User Avatar">
               </div>
               <div class="card-footer">
                 <div class="row">
@@ -359,6 +359,7 @@
                     type : '',
                     bio : '',
                     photo : '',
+                    base64: '',
                     password_confirmation: ''
                 })
             }
@@ -375,7 +376,7 @@
             async update () {
                 this.$Progress.start()
                 try {
-                    await this.form.put('/api/users/' + this.form.id)
+                    await this.form.put('/api/profile/' + this.form.id)
                     Fire.$emit('profile_changed')
                 } catch (e) {
                     Swal.fire('Failed', 'There was something wrong. \n' + e, 'warning')
@@ -385,12 +386,12 @@
             uploadProfile (e) {
                let file = e.target.files[0]
                let reader = new FileReader()
-               reader.onloadend =  (file) => {
-                   this.form.photo = reader.result
+               reader.onloadend = (file) => {
+                   this.form.base64 = reader.result
                }
                reader.readAsDataURL(file)
             }
-        },
+        }, 
         created () {
             this.getProfile()
             Fire.$on('profile_changed', () => {
@@ -398,6 +399,7 @@
                     type: 'success',
                     title: `Profile updated in successfully`
                 })
+                this.getProfile()
             })
         }
     }
