@@ -317,15 +317,15 @@
                             <has-error :form="form" field="bio"></has-error>
                         </div>
                       </div>
-<!-- 
-                        <div class="form-group">
-                        <label for="inputName2" class="col-sm-2 control-label">Photo</label>
+
+                    <div class="form-group">
+                        <label for="inputName2" class="col-sm-2 control-label">Profile Photo</label>
 
                         <div class="col-sm-12">
-                         <input type="file" class="form-control" id="exampleInputFile">
+                            <input @change="uploadProfile" type="file" class="form-input" >
                         </div>
-                      </div>
-                     -->
+                    </div>
+                    
                       <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                           <button type="submit" class="btn btn-danger">Save</button>
@@ -381,6 +381,14 @@
                     Swal.fire('Failed', 'There was something wrong. \n' + e, 'warning')
                 }
                 this.$Progress.finish()
+            },
+            uploadProfile (e) {
+               let file = e.target.files[0]
+               let reader = new FileReader()
+               reader.onloadend =  (file) => {
+                   this.form.photo = reader.result
+               }
+               reader.readAsDataURL(file)
             }
         },
         created () {
