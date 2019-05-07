@@ -14,7 +14,7 @@
             <div class="card card-widget widget-user">
               <!-- Add the bg color to the header using any of the bg-* classes -->
               <div class="widget-user-header text-white" style="background: url('./img/cover-profile.png') center center;">
-                <h3 class="widget-user-username">{{ user.name }}</h3>
+                <h3 class="widget-user-username">{{ form.name }}</h3>
                 <h5 class="widget-user-desc">Web Designer</h5>
               </div>
               <div class="widget-user-image">
@@ -275,63 +275,60 @@
                   <!-- /.tab-pane -->
 
                   <div class="tab-pane" id="settings">
-                    <form class="form-horizontal">
-                      <div class="form-group">
-                        <label for="inputName" class="col-sm-2 control-label">Name</label>
-
-                        <div class="col-sm-10">
-                          <input type="email" class="form-control" id="inputName" placeholder="Name">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-
-                        <div class="col-sm-10">
-                          <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                        </div>
-                      </div>
+                    <form  @submit.prevent="update" class="form-horizontal">
                       <div class="form-group">
                         <label for="inputName2" class="col-sm-2 control-label">Name</label>
 
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputName2" placeholder="Name">
+                        <div class="col-sm-12">
+                            <input v-model="form.name" type="text" name="name" placeholder="Name"
+                                class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
+                            <has-error :form="form" field="name"></has-error>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
+                        <label for="inputName2" class="col-sm-2 control-label">Email</label>
 
-                        <div class="col-sm-10">
-                          <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                        <div class="col-sm-12">
+                            <input v-model="form.email" type="text" name="name" placeholder="Email"
+                                class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
+                            <has-error :form="form" field="email"></has-error>                            
                         </div>
                       </div>
+                      <div class="form-group">
+                        <label for="inputName2" class="col-sm-2 control-label">Type</label>
 
+                        <div class="col-sm-12">
+                            <select v-model="form.type" name="type"
+                                class="form-control" :class="{ 'is-invalid': form.errors.has('type') }">
+                                <option value="">Select User Role</option>
+                                <option value="admin">Admin</option>
+                                <option value="user">Standard User</option>
+                                <option value="author">Author</option>
+                            </select>
+                            <has-error :form="form" field="type"></has-error>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="inputExperience" class="col-sm-2 control-label">Bio</label>
+
+                        <div class="col-sm-12">
+                            <textarea v-model="form.bio" name="bio" placeholder="Short bio for user (optional)"
+                                class="form-control" :class="{ 'is-invalid': form.errors.has('bio') }" />
+                            <has-error :form="form" field="bio"></has-error>
+                        </div>
+                      </div>
+<!-- 
                         <div class="form-group">
                         <label for="inputName2" class="col-sm-2 control-label">Photo</label>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-12">
                          <input type="file" class="form-control" id="exampleInputFile">
                         </div>
                       </div>
-                    
-                      <div class="form-group">
-                        <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
-
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                        </div>
-                      </div>
+                     -->
                       <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                          <div class="checkbox">
-                            <label>
-                              <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                          <button type="submit" class="btn btn-danger">Submit</button>
+                          <button type="submit" class="btn btn-danger">Save</button>
                         </div>
                       </div>
                     </form>
@@ -354,21 +351,46 @@
         },
         data () {
             return {
-                user: {}
+                form: new Form ({
+                    id: '',
+                    name : '',
+                    email : '',
+                    password : '',
+                    type : '',
+                    bio : '',
+                    photo : '',
+                    password_confirmation: ''
+                })
             }
         },
         methods: {
             async getProfile () {
                 try {
                     const user = await axios.get('/api/user')
-                    this.user = user.data
+                    this.form.fill(user.data)
                 } catch (e) {
 
                 }
+            },
+            async update () {
+                this.$Progress.start()
+                try {
+                    await this.form.put('/api/users/' + this.form.id)
+                    Fire.$emit('profile_changed')
+                } catch (e) {
+                    Swal.fire('Failed', 'There was something wrong. \n' + e, 'warning')
+                }
+                this.$Progress.finish()
             }
         },
         created () {
             this.getProfile()
+            Fire.$on('profile_changed', () => {
+                Toast.fire({
+                    type: 'success',
+                    title: `Profile updated in successfully`
+                })
+            })
         }
     }
 </script>
