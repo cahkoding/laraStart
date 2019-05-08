@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\UserItem;
 use App\Http\Resources\UserCollection;
 use Intervention\Image\Facades\Image as Image;
+use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
@@ -74,8 +75,12 @@ class UserController extends Controller
         // cara kedua
         $imageName = $req->photo;
         if ($req->base64) {
-            $imageName = time().'.' . explode('/', explode(':', substr($req->base64, 0, strpos($req->base64, ';')))[1])[1];
-            Image::make($req->base64)->save(public_path('img/profile/').$imageName);
+            $path = public_path('img/profile/');
+            $ext =  explode('/', explode(':', substr($req->base64, 0, strpos($req->base64, ';')))[1])[1];
+            $imageName = time().'.'.$ext;
+
+            File::exists($path) or File::makeDirectory($path, 0777, true, true);
+            Image::make($req->base64)->save($path.$imageName);
         }
 
         if ($req->password) {
