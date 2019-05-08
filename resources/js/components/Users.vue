@@ -163,21 +163,23 @@
                 try {
                     await this.form.post('api/users')
                     Fire.$emit('AfterCreate')
+                    this.$Progress.finish()
                 } catch (e) {
                     Swal.fire('Failed', 'There was something wrong. \n' + e, 'warning')
+                    this.$Progress.fail()
                 }
 
-                this.$Progress.finish()
             },
             async updateUser () {
                 this.$Progress.start()
                 try {
                     await this.form.put(`api/users/${this.form.id}`)
                     Fire.$emit('AfterCreate')
+                    this.$Progress.finish()
                 } catch (e) {
                     Swal.fire('Failed', 'There was something wrong. \n' + e, 'warning')
+                    this.$Progress.fail()
                 }
-                this.$Progress.finish()
             },
             async loadUsers () {
                 let res = await axios.get('/api/users')

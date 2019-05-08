@@ -378,18 +378,29 @@
                 try {
                     await this.form.put('/api/profile/' + this.form.id)
                     Fire.$emit('profile_changed')
+                    this.$Progress.finish()
                 } catch (e) {
                     Swal.fire('Failed', 'There was something wrong. \n' + e, 'warning')
+                    this.$Progress.fail()
                 }
-                this.$Progress.finish()
             },
             uploadProfile (e) {
                let file = e.target.files[0]
                let reader = new FileReader()
-               reader.onloadend = (file) => {
-                   this.form.base64 = reader.result
+              //  console.log(file)
+               if (file['size'] <= 2097152 ) {
+                  reader.onloadend = (file) => {
+                    this.form.base64 = reader.result
+                  }
+                  reader.readAsDataURL(file)
+               } else {
+                  this.form.base64 = ''
+                  Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'You are uploading large than 2mb'
+                  })
                }
-               reader.readAsDataURL(file)
             }
         }, 
         created () {

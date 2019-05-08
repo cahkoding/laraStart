@@ -2608,23 +2608,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 Fire.$emit('profile_changed');
-                _context2.next = 10;
+                this.$Progress.finish();
+                _context2.next = 12;
                 break;
 
-              case 7:
-                _context2.prev = 7;
+              case 8:
+                _context2.prev = 8;
                 _context2.t0 = _context2["catch"](1);
                 Swal.fire('Failed', 'There was something wrong. \n' + _context2.t0, 'warning');
+                this.$Progress.fail();
 
-              case 10:
-                this.$Progress.finish();
-
-              case 11:
+              case 12:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[1, 7]]);
+        }, _callee2, this, [[1, 8]]);
       }));
 
       function update() {
@@ -2637,13 +2636,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       var file = e.target.files[0];
-      var reader = new FileReader();
+      var reader = new FileReader(); //  console.log(file)
 
-      reader.onloadend = function (file) {
-        _this.form.base64 = reader.result;
-      };
+      if (file['size'] <= 2097152) {
+        reader.onloadend = function (file) {
+          _this.form.base64 = reader.result;
+        };
 
-      reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
+      } else {
+        this.form.base64 = '';
+        Swal.fire({
+          type: 'error',
+          title: 'Oops...',
+          text: 'You are uploading large than 2mb'
+        });
+      }
     }
   },
   created: function created() {
@@ -2852,23 +2860,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 Fire.$emit('AfterCreate');
-                _context.next = 10;
+                this.$Progress.finish();
+                _context.next = 12;
                 break;
 
-              case 7:
-                _context.prev = 7;
+              case 8:
+                _context.prev = 8;
                 _context.t0 = _context["catch"](1);
                 Swal.fire('Failed', 'There was something wrong. \n' + _context.t0, 'warning');
+                this.$Progress.fail();
 
-              case 10:
-                this.$Progress.finish();
-
-              case 11:
+              case 12:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[1, 7]]);
+        }, _callee, this, [[1, 8]]);
       }));
 
       function createUser() {
@@ -2892,23 +2899,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 Fire.$emit('AfterCreate');
-                _context2.next = 10;
+                this.$Progress.finish();
+                _context2.next = 12;
                 break;
 
-              case 7:
-                _context2.prev = 7;
+              case 8:
+                _context2.prev = 8;
                 _context2.t0 = _context2["catch"](1);
                 Swal.fire('Failed', 'There was something wrong. \n' + _context2.t0, 'warning');
+                this.$Progress.fail();
 
-              case 10:
-                this.$Progress.finish();
-
-              case 11:
+              case 12:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[1, 7]]);
+        }, _callee2, this, [[1, 8]]);
       }));
 
       function updateUser() {

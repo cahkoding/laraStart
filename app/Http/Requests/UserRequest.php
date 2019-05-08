@@ -28,6 +28,7 @@ class UserRequest extends FormRequest
             'type' => 'required',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'sometimes|required|min:6|confirmed',
+            'photo' => 'sometimes'
         ];
 
         if($this->id){

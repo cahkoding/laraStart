@@ -72,6 +72,7 @@ class UserController extends Controller
         // \File::put(storage_path(). '/upload/profile/' . $imageName, base64_decode($image));
 
         // cara kedua
+        $imageName = $post['photo'];
         if ($req->base64) {
             $imageName = time().'.' . explode('/', explode(':', substr($req->base64, 0, strpos($req->base64, ';')))[1])[1];
 
