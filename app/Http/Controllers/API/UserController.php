@@ -62,8 +62,8 @@ class UserController extends Controller
 
     public function updateProfile(UserRequest $req, $id)
     {
-        $post = $req->toArray();
         $user = User::findOrFail($id);
+        // dd($req->toArray());
 
         // cara pertama
         // $image = str_replace('data:image/png;base64,', '', $req->photo);
@@ -72,17 +72,19 @@ class UserController extends Controller
         // \File::put(storage_path(). '/upload/profile/' . $imageName, base64_decode($image));
 
         // cara kedua
-        $imageName = $post['photo'];
+        $imageName = $req->photo;
         if ($req->base64) {
             $imageName = time().'.' . explode('/', explode(':', substr($req->base64, 0, strpos($req->base64, ';')))[1])[1];
-
             Image::make($req->base64)->save(public_path('img/profile/').$imageName);
         }
 
-        $post['photo'] = $imageName;
-        // dd($post);
-        $res =  $user->update($post);
+        if ($req->password) {
+            $req->merge(['password' => Hash::make($req->password)]);
+        }
 
+        $req->merge(['photo' => $imageName]);
+        $res =  $user->update($req->all());
+        
         return ["message" => "User updated"];
     }
 }

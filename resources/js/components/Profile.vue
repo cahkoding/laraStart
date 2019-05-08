@@ -280,51 +280,70 @@
                         <label for="inputName2" class="col-sm-2 control-label">Name</label>
 
                         <div class="col-sm-12">
-                            <input v-model="form.name" type="text" name="name" placeholder="Name"
-                                class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
-                            <has-error :form="form" field="name"></has-error>
+                          <input v-model="form.name" type="text" name="name" placeholder="Name"
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
+                          <has-error :form="form" field="name"></has-error>
                         </div>
                       </div>
                       <div class="form-group">
                         <label for="inputName2" class="col-sm-2 control-label">Email</label>
 
                         <div class="col-sm-12">
-                            <input v-model="form.email" type="text" name="name" placeholder="Email"
-                                class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
-                            <has-error :form="form" field="email"></has-error>                            
+                          <input v-model="form.email" type="text" name="name" placeholder="Email"
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
+                          <has-error :form="form" field="email"></has-error>                            
                         </div>
                       </div>
                       <div class="form-group">
                         <label for="inputName2" class="col-sm-2 control-label">Type</label>
 
                         <div class="col-sm-12">
-                            <select v-model="form.type" name="type"
-                                class="form-control" :class="{ 'is-invalid': form.errors.has('type') }">
-                                <option value="">Select User Role</option>
-                                <option value="admin">Admin</option>
-                                <option value="user">Standard User</option>
-                                <option value="author">Author</option>
-                            </select>
-                            <has-error :form="form" field="type"></has-error>
+                          <select v-model="form.type" name="type"
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('type') }">
+                            <option value="">Select User Role</option>
+                            <option value="admin">Admin</option>
+                            <option value="user">Standard User</option>
+                            <option value="author">Author</option>
+                          </select>
+                          <has-error :form="form" field="type"></has-error>
                         </div>
                       </div>
                       <div class="form-group">
                         <label for="inputExperience" class="col-sm-2 control-label">Bio</label>
 
                         <div class="col-sm-12">
-                            <textarea v-model="form.bio" name="bio" placeholder="Short bio for user (optional)"
-                                class="form-control" :class="{ 'is-invalid': form.errors.has('bio') }" />
-                            <has-error :form="form" field="bio"></has-error>
+                          <textarea v-model="form.bio" name="bio" placeholder="Short bio for user (optional)"
+                              class="form-control" :class="{ 'is-invalid': form.errors.has('bio') }" />
+                          <has-error :form="form" field="bio"></has-error>
                         </div>
                       </div>
 
                     <div class="form-group">
                         <label for="inputName2" class="col-sm-2 control-label">Profile Photo</label>
-
                         <div class="col-sm-12">
-                            <input @change="uploadProfile" type="file" class="form-input" >
+                          <input @change="uploadProfile" type="file" class="form-input" >
                         </div>
                     </div>
+
+                    <!-- <div class="form-group">
+                      <label for="inputName2" class="col-sm-4 control-label">Password (Leave empty if not changing)</label>
+                      <div class="col-sm-12">
+                        <input v-model="form.password" type="password" name="password" placeholder="Password"
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('password') }">
+                        <has-error :form="form" field="password"></has-error>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="inputName2" class="col-sm-4 control-label">Password Confirmation</label>
+                      <div class="col-sm-12">
+                        <input v-model="form.password_confirmation" type="password" 
+                        class="form-control"
+                        name="password_confirmation" placeholder="Confirm Password" id="password-confirm"
+                        autocomplete="new-password">
+                        <has-error :form="form" field="password"></has-error>
+                      </div>
+                    </div> -->
                     
                       <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
@@ -405,6 +424,8 @@
         }, 
         created () {
             this.getProfile()
+            console.log(this.form);
+            
             Fire.$on('profile_changed', () => {
                 Toast.fire({
                     type: 'success',
