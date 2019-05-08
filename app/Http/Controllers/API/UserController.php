@@ -73,11 +73,15 @@ class UserController extends Controller
         // \File::put(storage_path(). '/upload/profile/' . $imageName, base64_decode($image));
 
         // cara kedua
+        $currentPhoto = $user->photo;
         $imageName = $req->photo;
         if ($req->base64) {
             $path = public_path('img/profile/');
             $ext =  explode('/', explode(':', substr($req->base64, 0, strpos($req->base64, ';')))[1])[1];
             $imageName = time().'.'.$ext;
+
+            // destroy old photo
+            unlink($path.$currentPhoto);
 
             File::exists($path) or File::makeDirectory($path, 0777, true, true);
             Image::make($req->base64)->save($path.$imageName);
