@@ -17,10 +17,12 @@ class UserController extends Controller
 
     public function __construct () {
             $this->middleware('auth:api');
+            // $this->authorize('isAdmin'); // jika di construct akan kena semua
     }
 
     public function index()
     {
+        // $this->authorize('isAdmin');
         $users = User::orderBy('id', 'desc')->paginate(5);
         return new UserCollection($users);
     }
@@ -55,6 +57,7 @@ class UserController extends Controller
 
     public function destroy($id)
     {
+        $this->authorize('isAdmin'); //param2 bisa dipake untuk compare request body
         $user = User::findOrFail($id);
         $user->delete();
 
