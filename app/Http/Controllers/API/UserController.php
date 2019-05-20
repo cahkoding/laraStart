@@ -22,7 +22,7 @@ class UserController extends Controller
 
     public function index()
     {
-        // $this->authorize('isAdmin');
+        $this->authorize('isAdmin');
         $users = User::orderBy('id', 'desc')->paginate(5);
         return new UserCollection($users);
     }

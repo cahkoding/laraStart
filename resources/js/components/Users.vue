@@ -1,8 +1,12 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
-                       
-          <div class="col-12">
+
+          <div class="col-12" v-show="!this.$gate.isAdmin()">
+              <h3>403</h3>
+          </div>     
+          
+          <div class="col-12" v-show="this.$gate.isAdmin()">
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Users Table</h3>
@@ -182,8 +186,10 @@
                 }
             },
             async loadUsers () {
-                let res = await axios.get('/api/users')
-                this.users = res.data.data
+                if (this.$gate.isAdmin()) {
+                    let res = await axios.get('/api/users')
+                    this.users = res.data.data
+                }
             },
             async confirmDelete (id) {
                 let result = await Swal.fire({

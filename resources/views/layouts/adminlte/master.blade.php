@@ -193,7 +193,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </p>
           </router-link>
         </li>
-        @endcan
+        
         <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-envelope"></i>
@@ -229,6 +229,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </ul>
           </li>
+          @endcan
           <li class="nav-item">
             <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link">
               <i class="nav-icon fas fa-power-off"></i>
@@ -306,6 +307,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </div>
 <!-- ./wrapper -->
 
+@auth
+<script>
+  window.user = @json(Auth::user())
+</script>
+@endauth
 
 <script src="js/app.js"></script>
 </body>
