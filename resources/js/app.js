@@ -78,6 +78,11 @@ Vue.component(
     require('./components/passport/PersonalAccessTokens.vue').default
 );
 
+Vue.component(
+    'not-found',
+    require('./components/404.vue').default
+);
+
 window.Form = Form
 window.Swal = Swal
 window.Fire = new Vue() // optioonal Fire.$on , jka tidak di deklarasi bisa dipanggil dengan this.$emit / $on
