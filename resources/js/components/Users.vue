@@ -1,11 +1,11 @@
 <template>
     <div class="container">
 
-        <div class="row" v-if="!this.$gate.isAdmin()">
+        <div class="row" v-if="!this.$gate.isAdminOrAuthor()">
             <not-found></not-found>
         </div>
 
-        <div class="row justify-content-center" v-if="this.$gate.isAdmin()">
+        <div class="row justify-content-center" v-if="this.$gate.isAdminOrAuthor()">
           <div class="col-12">
             <div class="card">
               <div class="card-header">
@@ -186,7 +186,7 @@
                 }
             },
             async loadUsers () {
-                if (this.$gate.isAdmin()) {
+                if (this.$gate.isAdminOrAuthor()) {
                     let res = await axios.get('/api/users')
                     this.users = res.data.data
                 }

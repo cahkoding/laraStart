@@ -2984,7 +2984,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (!this.$gate.isAdmin()) {
+                if (!this.$gate.isAdminOrAuthor()) {
                   _context3.next = 5;
                   break;
                 }
@@ -65341,11 +65341,11 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    !this.$gate.isAdmin()
+    !this.$gate.isAdminOrAuthor()
       ? _c("div", { staticClass: "row" }, [_c("not-found")], 1)
       : _vm._e(),
     _vm._v(" "),
-    this.$gate.isAdmin()
+    this.$gate.isAdminOrAuthor()
       ? _c("div", { staticClass: "row justify-content-center" }, [
           _c("div", { staticClass: "col-12" }, [
             _c("div", { staticClass: "card" }, [
@@ -81810,6 +81810,11 @@ function () {
     value: function isUser() {
       return this.user.type === 'user';
     }
+  }, {
+    key: "isAdminOrAuthor",
+    value: function isAdminOrAuthor() {
+      return this.user.type === 'admin' || this.user.type === 'author';
+    }
   }]);
 
   return Gate;
@@ -81871,6 +81876,9 @@ var routes = [{
 }, {
   path: '/users',
   component: __webpack_require__(/*! ./components/Users.vue */ "./resources/js/components/Users.vue")["default"]
+}, {
+  path: "*",
+  component: __webpack_require__(/*! ./components/404.vue */ "./resources/js/components/404.vue")["default"]
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_3__["default"]({
   mode: 'history',

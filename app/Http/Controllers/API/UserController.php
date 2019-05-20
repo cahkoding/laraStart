@@ -22,8 +22,11 @@ class UserController extends Controller
 
     public function index()
     {
-        $this->authorize('isAdmin');
-        $users = User::orderBy('id', 'desc')->paginate(5);
+        // $this->authorize('isAdmin');
+        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor') ) {
+            $users = User::orderBy('id', 'desc')->paginate(5);
+        }
+
         return new UserCollection($users);
     }
 
