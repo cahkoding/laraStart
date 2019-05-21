@@ -21,6 +21,7 @@
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover">
                   <tbody><tr>
+                    <th>No</th>
                     <th>ID</th>
                     <th>Name</th>
                     <th>Email</th>
@@ -28,7 +29,8 @@
                     <th>Registered at</th>
                     <th>Tools</th>
                   </tr>
-                  <tr v-for="user in users" :key="user.id">
+                  <tr v-for="(user, i) in users.data" :key="user.id">
+                    <td>{{ ((users.meta.current_page-1)*users.meta.per_page)+(i+1) }}</td>
                     <td>{{ user.id }}</td>
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
@@ -48,6 +50,10 @@
                 </tbody></table>
               </div>
               <!-- /.card-body -->
+              <div class="card-footer">
+                  <pagination :data="users" 
+                    @pagination-change-page="getResults"></pagination>
+              </div>
             </div>
             <!-- /.card -->
           </div>
@@ -144,7 +150,7 @@
                     photo : '',
                     password_confirmation: ''
                 }), 
-                users: []
+                users: {}
             }
         },
         methods: {
@@ -188,7 +194,7 @@
             async loadUsers () {
                 if (this.$gate.isAdminOrAuthor()) {
                     let res = await axios.get('/api/users')
-                    this.users = res.data.data
+                    this.users = res.data
                 }
             },
             async confirmDelete (id) {
@@ -219,6 +225,12 @@
                 } catch (e) {
                     Swal.fire('Failed', 'There was something wrong. \n' + e, 'warning')
                 }
+            },
+            getResults(page = 1) {
+                axios.get('/api/users?page=' + page)
+                    .then(response => {
+                        this.users = response.data;
+                    });
             }
         },
         created () {

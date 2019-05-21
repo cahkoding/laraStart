@@ -24,7 +24,7 @@ class UserController extends Controller
     {
         // $this->authorize('isAdmin');
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor') ) {
-            $users = User::orderBy('id', 'desc')->paginate(5);
+            $users = User::orderBy('id', 'desc')->paginate(3);
         }
 
         return new UserCollection($users);
@@ -87,7 +87,7 @@ class UserController extends Controller
             $imageName = time().'.'.$ext;
 
             // destroy old photo
-            unlink($path.$currentPhoto);
+            !File::exists($path.$currentPhoto) or unlink($path.$currentPhoto);
 
             File::exists($path) or File::makeDirectory($path, 0777, true, true);
             Image::make($req->base64)->save($path.$imageName);
