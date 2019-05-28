@@ -13183,6 +13183,14 @@ a.text-muted:hover {
   color: cyan;
 }
 
+.white {
+  color: #fff;
+}
+
+.bg-dope {
+  background-color: #ffffff;
+}
+
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
@@ -29601,8 +29609,8 @@ readers do not read off random characters that represent icons */
 }
 
 .router-link-exact-active {
-  background-color: #007bff;
-  color: #fff !important;
+  background-color: #ffed4a !important;
+  color: black !important;
 }
 
 .page-enter-active,
@@ -29627,5 +29635,33 @@ readers do not read off random characters that represent icons */
 .fade-enter,
 .fade-leave-active {
   opacity: 0;
+}
+
+.nav-link:hover {
+  color: #fffb02;
+  background-color: green;
+}
+
+.sidebar-dark-primary .user-panel a:hover {
+  color: #e60000;
+}
+
+.sidebar-dark-primary .sidebar a {
+  color: #181818;
+}
+
+.sidebar-dark-primary .nav-sidebar > .nav-item.menu-open > .nav-link,
+.sidebar-dark-primary .nav-sidebar > .nav-item:hover > .nav-link {
+  color: #363636;
+  background-color: #d8d8d8;
+}
+
+.sidebar-dark-primary .nav-treeview > .nav-item > .nav-link {
+  color: #181818;
+}
+
+.sidebar-dark-primary .nav-treeview > .nav-item > .nav-link:hover {
+  color: #363636;
+  background-color: #d8d8d8;
 }
 

@@ -21,8 +21,8 @@ $fa-font-path: "../webfonts";
 }
 
 .router-link-exact-active {
-    background-color: #007bff;
-    color: #fff !important;
+    background-color: #ffed4a !important;
+    color: rgb(0, 0, 0) !important;
 }
 
 .page-enter-active, .page-leave-active {
@@ -39,4 +39,33 @@ $fa-font-path: "../webfonts";
 
 .fade-enter, .fade-leave-active {
   opacity: 0
+}
+
+.nav-link:hover {
+  color: #fffb02;
+  background-color: green;
+}
+
+
+.sidebar-dark-primary .user-panel a:hover {
+  color: #e60000;
+}
+
+.sidebar-dark-primary .sidebar a {
+  color: rgb(24, 24, 24);
+}
+
+.sidebar-dark-primary .nav-sidebar > .nav-item.menu-open > .nav-link,
+.sidebar-dark-primary .nav-sidebar > .nav-item:hover > .nav-link {
+  color: #363636;
+  background-color: rgb(216, 216, 216);
+}
+
+.sidebar-dark-primary .nav-treeview > .nav-item > .nav-link {
+  color: rgb(24, 24, 24);  
+}
+
+.sidebar-dark-primary .nav-treeview > .nav-item > .nav-link:hover {
+  color: #363636;
+  background-color: rgb(216, 216, 216);
 }

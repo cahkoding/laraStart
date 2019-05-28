@@ -106,5 +106,17 @@ window.Toast = Toast
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    data: {
+        search: ''
+    },
+    methods: {
+        // searchit () {
+        //     console.log('searching...')
+        //     Fire.$emit('Searching')
+        // }
+        searchit: _.debounce(() => {
+            Fire.$emit('Searching')
+        }, 700)
+    }
 });

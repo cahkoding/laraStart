@@ -227,7 +227,21 @@
                 }
             },
             getResults(page = 1) {
+                // const url = () => {
+                //     if (this.$parent.search) {
+                //         return '/api/users?search=' + this.$parent.search +
+                            
+                //     } else {
+                //         return '/api/users?page=' + this.page
+                //     }
+                // }
                 axios.get('/api/users?page=' + page)
+                    .then(response => {
+                        this.users = response.data;
+                    });
+            },
+            searching () {
+                axios.get('/api/users?search=' + this.$parent.search)
                     .then(response => {
                         this.users = response.data;
                     });
@@ -245,6 +259,11 @@
                     type: 'success',
                     title: `User ${mode} in successfully`
                 })
+            })
+
+            Fire.$on('Searching', () => {
+                console.log('listen...')
+                this.searching()
             })
         }
     }

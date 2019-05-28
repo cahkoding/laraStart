@@ -20,11 +20,16 @@ class UserController extends Controller
             // $this->authorize('isAdmin'); // jika di construct akan kena semua
     }
 
-    public function index()
+    public function index (Request $req)
     {
         // $this->authorize('isAdmin');
+
+        $search = $req->search ?? '';
+
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor') ) {
-            $users = User::orderBy('id', 'desc')->paginate(3);
+            $users = User::where('name', 'LIKE', '%'.$search.'%')
+                ->orWhere('email', 'LIKE', '%'.$search.'%')
+                ->orderBy('id', 'desc')->paginate(3);
         }
 
         return new UserCollection($users);

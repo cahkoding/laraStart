@@ -3100,27 +3100,46 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      // const url = () => {
+      //     if (this.$parent.search) {
+      //         return '/api/users?search=' + this.$parent.search +
+      //     } else {
+      //         return '/api/users?page=' + this.page
+      //     }
+      // }
       axios.get('/api/users?page=' + page).then(function (response) {
         _this.users = response.data;
+      });
+    },
+    searching: function searching() {
+      var _this2 = this;
+
+      axios.get('/api/users?search=' + this.$parent.search).then(function (response) {
+        _this2.users = response.data;
       });
     }
   },
   created: function created() {
-    var _this2 = this;
+    var _this3 = this;
 
     this.loadUsers();
     setInterval(function () {
-      return _this2.loadUsers();
+      return _this3.loadUsers();
     }, 15000);
     Fire.$on('AfterCreate', function () {
-      _this2.loadUsers();
+      _this3.loadUsers();
 
       $('#addNew').modal('hide');
-      var mode = _this2.editMode ? 'updated' : 'created';
+      var mode = _this3.editMode ? 'updated' : 'created';
       Toast.fire({
         type: 'success',
         title: "User ".concat(mode, " in successfully")
       });
+    });
+    Fire.$on('Searching', function () {
+      console.log('listen...');
+
+      _this3.searching();
     });
   }
 });
@@ -83343,7 +83362,19 @@ window.Toast = Toast;
 
 var app = new Vue({
   el: '#app',
-  router: router
+  router: router,
+  data: {
+    search: ''
+  },
+  methods: {
+    // searchit () {
+    //     console.log('searching...')
+    //     Fire.$emit('Searching')
+    // }
+    searchit: _.debounce(function () {
+      Fire.$emit('Searching');
+    }, 700)
+  }
 });
 
 /***/ }),
