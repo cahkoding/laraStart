@@ -29639,7 +29639,6 @@ readers do not read off random characters that represent icons */
 
 .nav-link:hover {
   color: #fffb02;
-  background-color: green;
 }
 
 .sidebar-dark-primary .user-panel a:hover {

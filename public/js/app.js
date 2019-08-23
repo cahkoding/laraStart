@@ -2583,12 +2583,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+// import Datepicker from 'vuejs-datepicker';
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // components: {
+  //   Datepicker
+  // },
   mounted: function mounted() {
     console.log('Component mounted.');
   },
   data: function data() {
     return {
+      // tanggal: '',
+      // tanggal_akhir: '',
+      // disabledDates: {
+      //  to: new Date(Date.now())
+      // },
       form: new Form({
         id: '',
         name: '',
@@ -2603,6 +2616,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   methods: {
+    // async ambilTanggal () {
+    //   console.log('tanggal',  this.tanggal)
+    //   console.log('tanggalsss',  this.disabledDates.to)
+    //   this.disabledDates.to=this.tanggal
+    //   console.log('tanggalsss_ubah',  this.disabledDates.to)
+    // },
     getProfile: function () {
       var _getProfile = _asyncToGenerator(
       /*#__PURE__*/
@@ -2736,6 +2755,10 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
 //
 //
 //
@@ -66772,6 +66795,23 @@ var render = function() {
                       _vm._v("Add New \n                    "),
                       _c("i", { staticClass: "fas fa-user-plus" })
                     ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.printme($event)
+                        }
+                      }
+                    },
+                    [
+                      _vm._v("Print \n                    "),
+                      _c("i", { staticClass: "fas fa-print" })
+                    ]
                   )
                 ])
               ]),
@@ -83373,7 +83413,10 @@ var app = new Vue({
     // }
     searchit: _.debounce(function () {
       Fire.$emit('Searching');
-    }, 700)
+    }, 700),
+    printme: function printme() {
+      window.print();
+    }
   }
 });
 

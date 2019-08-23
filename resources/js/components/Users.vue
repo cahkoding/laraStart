@@ -15,6 +15,10 @@
                     <button class="btn btn-success" @click="newModal">Add New 
                         <i class="fas fa-user-plus"></i>
                     </button>
+
+                    <button class="btn btn-success" @click.prevent="printme">Print 
+                        <i class="fas fa-print"></i>
+                    </button>
                 </div>
               </div>
               <!-- /.card-header -->

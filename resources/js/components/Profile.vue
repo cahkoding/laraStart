@@ -321,6 +321,10 @@
                     <div class="form-group">
                         <label for="inputName2" class="col-sm-2 control-label">Profile Photo</label>
                         <div class="col-sm-12">
+                          <!-- for testing only -->
+                          <!-- <input v-model="nama_lengkap" type="text" >
+                          <datepicker @input="ambilTanggal" v-model="tanggal"></datepicker>
+                          <datepicker :disabled-dates="this.disabledDates" @input="ambilTanggal" v-model="tanggal_akhir"></datepicker> -->
                           <input @change="uploadProfile" type="file" class="form-input" >
                         </div>
                     </div>
@@ -363,13 +367,23 @@
 </template>
 
 <script>
+    // import Datepicker from 'vuejs-datepicker';
+    
     export default {
+        // components: {
+        //   Datepicker
+        // },
         mounted () {
             console.log('Component mounted.')
             
         },
         data () {
             return {
+                // tanggal: '',
+                // tanggal_akhir: '',
+                // disabledDates: {
+                //  to: new Date(Date.now())
+                // },
                 form: new Form ({
                     id: '',
                     name : '',
@@ -384,6 +398,13 @@
             }
         },
         methods: {
+            // async ambilTanggal () {
+            //   console.log('tanggal',  this.tanggal)
+            //   console.log('tanggalsss',  this.disabledDates.to)
+            //   this.disabledDates.to=this.tanggal
+            //   console.log('tanggalsss_ubah',  this.disabledDates.to)
+
+            // },
             async getProfile () {
                 try {
                     const user = await axios.get('/api/user')
